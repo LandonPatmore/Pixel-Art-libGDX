@@ -1,34 +1,31 @@
 package Actors;
 
+import Utils.Colors;
 import Utils.Helper;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 
-public class Pixel extends Actor {
+public class PalletColor extends Actor {
 
-    private Pixmap pixmap;
-    private final Vector2 gridPos;
+    private Colors color;
     private final Vector2 canvasPos;
     private final int size;
     private Texture t;
-    private String id;
+    private Pixmap pixmap;
+    private Color actualColor;
 
-    /**
-     * @param gridPos   the pixel's actual grid position
-     * @param canvasPos the pixel's position on the canvas
-     * @param size      the size of the pixel
-     */
-    public Pixel(Vector2 gridPos, Vector2 canvasPos, int size) {
-        this.gridPos = gridPos;
+
+    public PalletColor(Colors color, Vector2 canvasPos, int size) {
+        this.color = color;
         this.canvasPos = canvasPos;
         this.size = size;
-        id = gridPos.x + " : " + gridPos.y;
+
         createPixmap();
         setBounds(canvasPos.x, canvasPos.y, size, size);
         setListener();
@@ -41,17 +38,13 @@ public class Pixel extends Actor {
         addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                pixmap = new Pixmap(size, size, Pixmap.Format.RGBA8888);
-                pixmap.setColor(Helper.getSelectedColor());
-                pixmap.fillRectangle(0, 0, size, size);
-                t = new Texture(pixmap);
-                pixmap.dispose();
+                Helper.setSelectedColor(actualColor);
                 return true;
             }
 
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                System.out.println(id);
+                System.out.println(color);
             }
         });
     }
@@ -60,8 +53,42 @@ public class Pixel extends Actor {
      * Creates a pixmap to be piped into a texture to create a filled rectangle
      */
     private void createPixmap() {
+        switch (color) {
+            case RED:
+                actualColor = Color.RED;
+                break;
+            case BLUE:
+                actualColor = Color.BLUE;
+                break;
+            case BLACK:
+                actualColor = Color.BLACK;
+                break;
+            case GREEN:
+                actualColor = Color.GREEN;
+                break;
+            case WHITE:
+                actualColor = Color.WHITE;
+                break;
+            case ORANGE:
+                actualColor = Color.ORANGE;
+                break;
+            case PURPLE:
+                actualColor = Color.PURPLE;
+                break;
+            case YELLOW:
+                actualColor = Color.YELLOW;
+                break;
+            case PINK:
+                actualColor = Color.PINK;
+                break;
+            case TEAL:
+                actualColor = Color.TEAL;
+                break;
+        }
+
+
         pixmap = new Pixmap(size, size, Pixmap.Format.RGBA8888);
-        setColor();
+        pixmap.setColor(actualColor);
         pixmap.fillRectangle(0, 0, size, size);
         t = new Texture(pixmap);
         pixmap.dispose();
@@ -75,12 +102,5 @@ public class Pixel extends Actor {
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
         batch.draw(t, canvasPos.x, canvasPos.y);
-    }
-
-    /**
-     * Generates a random color for the pixel
-     */
-    private void setColor() {
-        pixmap.setColor(1, 1, 1, 1);
     }
 }
