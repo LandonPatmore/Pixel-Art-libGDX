@@ -18,6 +18,12 @@ public class Pixel extends Actor {
     private Texture t;
     private String id;
 
+    /**
+     *
+     * @param gridPos the pixel's actual grid position
+     * @param canvasPos the pixel's position on the canvas
+     * @param size the size of the pixel
+     */
     public Pixel(Vector2 gridPos, Vector2 canvasPos, int size) {
         this.gridPos = gridPos;
         this.canvasPos = canvasPos;
@@ -28,6 +34,9 @@ public class Pixel extends Actor {
         setListener();
     }
 
+    /**
+     * Sets the listener for this particular pixel
+     */
     private void setListener() {
         addListener(new InputListener() {
             @Override
@@ -47,6 +56,9 @@ public class Pixel extends Actor {
         });
     }
 
+    /**
+     * Creates a pixmap to be piped into a texture to create a filled rectangle
+     */
     private void createPixmap() {
         pixmap = new Pixmap(size, size, Pixmap.Format.RGBA8888);
         setColor();
@@ -55,12 +67,20 @@ public class Pixel extends Actor {
         pixmap.dispose();
     }
 
+    /**
+     *
+     * @param batch batch
+     * @param parentAlpha parentAlpha
+     */
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
         batch.draw(t, canvasPos.x, canvasPos.y);
     }
 
+    /**
+     * Generates a random color for the pixel
+     */
     private void setColor() {
         float R = MathUtils.random();
         float G = MathUtils.random();
