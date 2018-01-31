@@ -1,5 +1,6 @@
 package Actors;
 
+import Utils.Colors;
 import Utils.Helper;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -41,6 +42,7 @@ public class Pixel extends Actor {
         addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                Helper.getSocket().emit("pixelChanged", Helper.getSelectedColor());
                 pixmap = new Pixmap(size, size, Pixmap.Format.RGBA8888);
                 pixmap.setColor(Helper.getSelectedColor());
                 pixmap.fillRectangle(0, 0, size, size);

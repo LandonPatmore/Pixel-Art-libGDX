@@ -1,10 +1,16 @@
 package Screens;
 
 import Stage.GameStage;
+import Utils.Helper;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import io.socket.client.IO;
+import io.socket.client.Socket;
+import io.socket.emitter.Emitter;
+
+import java.net.URISyntaxException;
 
 public class GameScreen implements Screen {
 
@@ -12,6 +18,7 @@ public class GameScreen implements Screen {
 
     public GameScreen() {
         this.gameStage = new GameStage(new ScreenViewport());
+        Helper.getSocket().connect();
     }
 
     @Override
